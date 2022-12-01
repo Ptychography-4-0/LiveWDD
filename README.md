@@ -1,4 +1,4 @@
-# Live Reconstruction of Wigner Distribution Deconvolution
+# Live Reconstruction using Wigner Distribution Deconvolution
 This repository contains a reformulation of Wigner Distribution Deconvolution (WDD) for live reconstruction and scripts
 to reproduce the results in the related paper.
 
