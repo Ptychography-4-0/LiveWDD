@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "live_wdd"
+description = "This repository contains a reformulation of Wigner Distribution Deconvolution (WDD) for live reconstruction and scripts to reproduce the results in the related paper."
+license = {file = "LICENSE"}
+keywords = ["ptychography", "wdd", "wigner distribution deconvolution", "electron microscopy", "4D STEM"]
+requires-python = ">=3.6"
+version = "1.0"
+dependencies = [
+    "numpy",
+    "numba",
+    "scipy",
+    "libertem"
+]
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"]}
