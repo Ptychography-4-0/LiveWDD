@@ -3,13 +3,22 @@ from typing_extensions import Literal
 from live_wdd.dim_reduct import compress, get_sampled_basis
 from libertem.corrections.coordinates import identity
 from live_wdd.parameters import physical_coordinate, est_scale
-from perf_utils import timer
 import typing
 import numpy as np
 import numba
 import time
 if typing.TYPE_CHECKING:
 	import numpy.typing as nt
+
+
+try:
+    from perf_utils import timer
+except ImportError:
+    from contextlib import contextmanager
+
+    @contextmanager
+    def timer(*args, **kwargs):
+        yield
 
     
 def prepare_livewdd(ds_shape: Tuple,
@@ -20,7 +29,7 @@ def prepare_livewdd(ds_shape: Tuple,
                     com:Tuple, 
                     order: int, 
                     complex_dtype: str,
-                    ctx, ds,
+                    scale,
                     transformation=None):
     
     """
@@ -48,10 +57,9 @@ def prepare_livewdd(ds_shape: Tuple,
         Bandlimited number of dimensionality reduction, i.e., L = 16
     complex_dtype
         Predefined dtype of our data
-    ctx
-        Contex to run libertem
-    ds
-        dataset and its parameters
+    scale
+        Scaling factor for basis function relative to :code:`rad`.
+        A good value can be determined numerically using :fun:`live_wdd.parameters.est_scale`.
         
     Return
     ------
@@ -82,10 +90,6 @@ def prepare_livewdd(ds_shape: Tuple,
                                  semiconv_pix=rad,
                                  com=com)
    
-
-    # Get Matrix from Basis functions
-    scale = est_scale(order, ds_shape,com,rad, complex_dtype, ctx, ds)
- 
     coeff = get_sampled_basis(order=order, 
                           ds_shape=ds_shape,
                           cy=com[0], cx=com[1],

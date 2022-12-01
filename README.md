@@ -12,12 +12,13 @@ The datasets for graphene and WSe2 can be downloaded here:
 ## Requirements
 
 The requirements for live reconstruction can be installed as dependencies with ```pip install .``` from this repository.
-The scripts require the following additional packages:
+The scripts and notebooks require the following additional packages:
 
 ```
 click
-perf-utils
+https://github.com/sk1p/python-perf-utils
 psutil
+tikzplotlib
 ```
 
 

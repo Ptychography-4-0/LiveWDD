@@ -36,7 +36,7 @@ def wavelength(U:float):
     return lambda_e
 
 
-def est_scale(order, ds_shape,com,rad, float_dtype, ctx, ds):
+def est_scale(order, ds_shape,com,rad, float_dtype, pacbed):
     """
     Function to estimate optimal radius for Hermite-Gauss polynomials
     
@@ -59,7 +59,7 @@ def est_scale(order, ds_shape,com,rad, float_dtype, ctx, ds):
     Scaling radius for envelope of Hermite polynomials
 
     """
-    pacbed = np.sum(ctx.run_udf(dataset=ds, udf=SumUDF(), progress=False)['intensity'].data,0)
+    pacbed = np.sum(pacbed, 0)
     
     err = []
     for sc in np.arange(1.0, 11.0):
