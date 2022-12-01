@@ -27,8 +27,5 @@ This repository is presented to reproduce the result and act as supplementary ma
 
 ## License
 
-
-All files are provided under the terms of the ```??? License``` 
-Really?
-All files are provided under the terms of the ```AGPL License```
+See file LICENSE
 
