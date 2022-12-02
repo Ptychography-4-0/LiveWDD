@@ -8,6 +8,7 @@ from live_wdd.prepare_resize_data import setup_data
 import time
 import numpy as np 
 import os
+path_current = os.path.abspath(os.getcwd())
 from libertem.api import Context
 import click
 from libertem.common import Shape 
@@ -133,7 +134,7 @@ def compute_liveproc(path, path_json, MC):
             scan_idx, wiener_filter_compressed, row_exp, col_exp,coeff = prepare_livewdd(ds_shape, acc, scan_real, 
                                                                                         semiconv, par_dictionary['rad'], 
                                                                                         par_dictionary['com'], order, 
-                                                                                        complex_dtype, ctx, ds)
+                                                                                        complex_dtype, 6.0)
 
         
         
@@ -199,7 +200,10 @@ if __name__ == '__main__':
     type_increase = 'scan'
     type_eval = 'Time'
     MC, path_store, list_dim, set_scan_det = setup_data(type_increase, type_eval)
-    
+    # Create directory
+    os.makedirs(path_store, exist_ok = True)
+
+ 
     # Choose Solver
     solver = 'livewdd_core'
     formt = '.json'
@@ -207,14 +211,14 @@ if __name__ == '__main__':
     
      
     # Path file
-    parfile ='/Users/bangun/pyptychostem/parameters.txt'
+    parfile ='/Users/bangun/pyptychostem-master/parameters.txt'
     total_result = []
     for idx in range(len(list_dim)):
         print('Processing dimension ', str(list_dim[idx]))
         path_data, path_json = set_scan_det(list_dim[idx],parfile)
 
         # Load Data and run reconstruction
-        parfile_new = '/Local/erc-1/bangun/LiveWDD_Data/parameters.txt'
+        parfile_new = os.path.join(path_current, 'LiveWDD_Data/parameters_new.txt')
         
         # Run algorithm
         result = main(MC, path_data, path_json)
@@ -223,5 +227,5 @@ if __name__ == '__main__':
                              'result': result})
 
         
-        #with open(file_name, 'w') as f:
-        #    json.dump(total_result, f)
+        with open(file_name, 'w') as f:
+            json.dump(total_result, f)

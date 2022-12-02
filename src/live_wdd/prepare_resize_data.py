@@ -2,12 +2,15 @@ from typing import Tuple, Optional, Union, List
 from typing_extensions import Literal
 import json
 import sys
-sys.path.insert(1, '/Users/bangun/pyptychostem')
+import os
+path_current = os.path.abspath(os.getcwd())
+# Set the path for pyptychostem
+sys.path.insert(1, '/Users/bangun/pyptychostem-master')
 from libertem.common import Shape 
 from scipy.ndimage import center_of_mass 
 import numpy as np
 from STEM4D import Data4D 
-
+import shutil
 def cut_det(idp:np.ndarray,
             com:Tuple,
             det_size:Tuple):
@@ -155,8 +158,28 @@ def increase_detector(dim:Tuple,
     com = center_of_mass(pacbed)
 
     ori_crop = cut_det(ori,com,ds_shape.sig)
-    print('Original crop ', ori_crop.shape)
-    path_data = "/Local/erc-1/bangun/LiveWDD_Data/idp.npy"
+    
+    #path_data = "/Local/erc-1/bangun/LiveWDD_Data/idp.npy"
+    path_dir = os.path.join(path_current,'LiveWDD_Data')
+ 
+    #Create directory
+    os.makedirs(path_dir, exist_ok = True)
+    # Copy and create new txt for larger dimension
+    target = os.path.join(path_dir, 'parameters_new.txt')
+    shutil.copyfile(parfile, target)
+    # Read in the file
+    with open(target, 'r') as file_new :
+        filedata = file_new.read()
+
+    # Replace the target string
+    filedata = filedata.replace('graphene_simu_reshaped.npy', 'idp.npy')
+
+    # Write the file out again
+    with open(target, 'w') as file_new:
+        file_new.write(filedata)
+
+    
+    path_data = os.path.join(path_dir, 'idp.npy')
 
     idp = np.lib.format.open_memmap(path_data, dtype='float32', mode='w+', shape=dim)
     print('Allocation ', idp.shape)
@@ -174,8 +197,8 @@ def increase_detector(dim:Tuple,
     par_dictionary['order'] = 16
     par_dictionary['dim'] = dim
 
-    path_json = "/Local/erc-1/bangun/LiveWDD_Data/params.json"
-    
+    #path_json = "/Local/erc-1/bangun/LiveWDD_Data/params.json"
+    path_json = os.path.join(path_dir, 'params.json')
     with open(path_json, 'w') as f:
          json.dump(par_dictionary, f)
 
@@ -232,9 +255,32 @@ def increase_scan(dim, parfile):
     com = center_of_mass(pacbed)
 
     ori_crop = cut_det(ori,com,ds_shape.sig)
+    
+    # Path to store data for larger dimension
+    #path_data = "/Local/erc-1/bangun/LiveWDD_Data/idp.npy"
+    path_dir = os.path.join(path_current,'LiveWDD_Data')
+    
+  
+    # Create directory
+    os.makedirs(path_dir, exist_ok = True)
 
-    path_data = "/Local/erc-1/bangun/LiveWDD_Data/idp.npy"
+    # Copy and create new txt for larger dimension
+    target = os.path.join(path_dir, 'parameters_new.txt')
+    shutil.copyfile(parfile, target)
+ 
+    # Read in the file
+    with open(target, 'r') as file_new :
+        filedata = file_new.read()
 
+    # Replace the target string
+    filedata = filedata.replace('graphene_simu_reshaped.npy', 'idp.npy')
+    
+    # Write the file out again
+    with open(target, 'w') as file_new:
+        file_new.write(filedata)
+    
+    # New data with larger dimension
+    path_data = os.path.join(path_dir, 'idp.npy')
     idp = np.lib.format.open_memmap(path_data, dtype='float32', mode='w+', shape=dim)
 
     # Increasing scanning points
@@ -252,8 +298,8 @@ def increase_scan(dim, parfile):
     par_dictionary['order'] = 16
     par_dictionary['dim'] = dim
 
-    path_json = "/Local/erc-1/bangun/LiveWDD_Data/params.json"
-    
+    #path_json = "/Local/erc-1/bangun/LiveWDD_Data/params.json"
+    path_json = os.path.join(path_dir, 'params.json')
     with open(path_json, 'w') as f:
          json.dump(par_dictionary, f)
          
@@ -288,18 +334,19 @@ def setup_data(type_increase:str,
         MC = 11
     else:
         MC = 1
-    
+  
     set_scan_det = {'scan':increase_scan,
                     'detector':increase_detector}
     
     if type_increase == 'scan':
         print('Increase the scanning points')
-        path_store = '/Users/bangun/LiveWDD/Result/' + type_eval +'/Scan'
-        # List scanning points
+        path_store = os.path.join(path_current,'Result/' + type_eval +'/Scan')
+        # List scanning points, add new Tuple if we want to evaluate more
         list_dim = [(128,128,128,128)]
     elif type_increase == 'detector':
         print('Increasing the detector')
-        path_store = '/Users/bangun/LiveWDD/Result/' + type_eval + '/Detector'
+        path_store =os.path.join(path_current,'Result/' + type_eval + '/Detector')
+        # List detector, add new Tuple if we want to evaluate more
         list_dim = [(128,128,128,128)]
     else:
         raise RuntimeError('Choose increasing dimension!')

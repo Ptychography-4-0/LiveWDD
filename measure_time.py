@@ -1,3 +1,4 @@
+# Script to measure time for each algorithm
 
 import os
 import json
@@ -5,14 +6,15 @@ from typing import Tuple
 from live_wdd.prepare_resize_data import setup_data
 import subprocess
 import sys
-sys.path.insert(1, '/Users/bangun/pyptychostem')
+import os
+path_current = os.path.abspath(os.getcwd())
+sys.path.insert(1, '/Users/bangun/pyptychostem-master')
 from STEM4D import WDD, Data4D
 from live_wdd.live_wdd import prepare_livewdd
 from live_wdd.wdd_udf import WDDUDF
 from live_wdd.prepare_resize_data import setup_data
 import time
 import numpy as np 
-import os
 from libertem.io.dataset.base import DataSet
 from libertem.api import Context
 import click
@@ -253,7 +255,7 @@ def compute_liveproc(path:str,
                                                                                      semiconv, par_dictionary['rad'], 
                                                                                      par_dictionary['com'], order, 
                                                                                      complex_dtype,
-                                                                                     ctx, ds)
+                                                                                     6.0)
  
     
         # Run Live WDD
@@ -326,25 +328,32 @@ def main(solver:str,
 
 if __name__ == '__main__':
     
-    type_increase = 'detector'
+    # Evaluate scan or detector
+    type_increase = 'scan'
+    # Here we only evaluate time, to evaluate memory allocation
+    # use measure_memory.py
     type_eval = 'Time'
     MC, path_store, list_dim, set_scan_det = setup_data(type_increase, type_eval)
     
+ 
+    # Create directory
+    os.makedirs(path_store, exist_ok = True)
+    
     # Choose Solver
-    solver = 'livewdd'
+    solver = 'pyptychostem' #livewdd, pyptychostem
     formt = '.json'
     file_name = os.path.join(path_store, solver + formt)
     
      
-    # Path file
-    parfile ='/Users/bangun/pyptychostem/parameters.txt'
+    # Path file, using graphene form pyptychostem
+    parfile ='/Users/bangun/pyptychostem-master/parameters.txt'
     total_result = []
     for idx in range(len(list_dim)):
         print('Processing dimension ', str(list_dim[idx]))
         path_data, path_json = set_scan_det(list_dim[idx],parfile)
 
-        # Load Data and run reconstruction
-        parfile_new = '/Local/erc-1/bangun/LiveWDD_Data/parameters.txt'
+        # Load Data after resize  and run reconstruction
+        parfile_new = os.path.join(path_current,'LiveWDD_Data/parameters_new.txt')
         
         # Run algorithm
         result = main(solver, MC, parfile_new, path_data, path_json)
@@ -353,5 +362,5 @@ if __name__ == '__main__':
                              'result': result})
 
         
-        #with open(file_name, 'w') as f:
-        #    json.dump(total_result, f)
+        with open(file_name, 'w') as f:
+            json.dump(total_result, f)

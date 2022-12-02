@@ -8,14 +8,14 @@ import click
 import json
  
     
- 
+
 def print_memory_usage(ps, save_json):
     
  
     
     total = 0.0
     
-    #total_results = []
+    total_results = []
     parts = []
 
     for p in ps:
@@ -80,8 +80,8 @@ def main(cmd, pid, save_json):
             time.sleep(0.2)
             total_result['time_stamp'] = time_stamp
             result_time_stamp.append(total_result)
-            #with open(save_json, 'w') as f:
-            #        json.dump(result_time_stamp, f)
+            with open(save_json, 'w') as f:
+                    json.dump(result_time_stamp, f)
              
             if subp is not None:
                 if subp.poll() is not None:

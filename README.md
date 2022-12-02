@@ -4,10 +4,13 @@ to reproduce the results in the related paper.
 
 To benchmark against an existing implementation of WDD we refer to the implementation in pyPtychoSTEM that can be acessed at the following link: https://gitlab.com/pyptychostem/pyptychostem
 
-The datasets for graphene and WSe2 can be downloaded here:
+The datasets for graphene and SrTiO3 can be downloaded here:
 1. Graphene: https://zenodo.org/record/4476506#.YxioTdVBxH5
-2. WSe2: https://zenodo.org/record/6477629#.YxioMdVBxH5
-3. Experimental SrTiO3: https://zenodo.org/record/5113449#.Yxnh7dVBxH4
+2. Experimental SrTiO3: https://zenodo.org/record/5113449#.Yxnh7dVBxH4
+
+The result to reproduce the images and graphs can be downloaded here:
+
+Result: https://zenodo.org/record/7390871#.Y4oe7zPMJH5
 
 ## Requirements
 

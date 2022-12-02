@@ -4,7 +4,8 @@ import json
 from live_wdd.prepare_resize_data import setup_data
 import subprocess
 import sys
-sys.path.insert(1, '/Users/bangun/pyptychostem')
+# Set path for pyptychostem
+sys.path.insert(1, '/Users/bangun/pyptychostem-master')
 from STEM4D import WDD, Data4D 
 from live_wdd.live_wdd import prepare_livewdd
 from live_wdd.wdd_udf import WDDUDF
@@ -204,7 +205,7 @@ def compute_liveproc(path, path_json, MC):
         scan_idx, wiener_filter_compressed, row_exp, col_exp,coeff = prepare_livewdd(ds_shape, acc, scan_real, 
                                                                                      semiconv, par_dictionary['rad'], 
                                                                                      par_dictionary['com'], order, 
-                                                                                     complex_dtype,ctx,ds)
+                                                                                     complex_dtype,6.0)
 
     
     
@@ -243,7 +244,7 @@ def main(solver, parfile_new, path_data, path_json, mc):
         Path for new dimension data for pyptychostem
 
     path_data
-        Path for dimension ata for livewdd
+        Path for dimension data for livewdd
 
     path_json
         Path for parameters of datasets
@@ -254,6 +255,7 @@ def main(solver, parfile_new, path_data, path_json, mc):
         Dictionary of result contains computation time and phase reconstruction
 
     """
+   
     if solver == 'pyptychostem':
         recon_wdd = compute_pyptycho(mc, parfile_new)
     else:
