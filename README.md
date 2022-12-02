@@ -28,8 +28,17 @@ tikzplotlib
 This repository is presented to reproduce the result and act as supplementary material for the paper below. For continued development please refer the Ptychography 4.0 repository: https://github.com/Ptychography-4-0/ptychography
 
 ## Citation
-
+```
+@article{bangun2022wdd,
+  title={Wigner Distribution Deconvolution Adaptation for Live Ptychography
+    Reconstruction},
+  author={Bangun, Arya and Baumeister, Paul F and Clausen, Alex and Weber, Dieter, Dunin-Borkowski, Rafal E.},
+  journal={arXiv preprint (WILL BE UPDATED)},
+  year={2022}
+            }
+```
 ## License
+
 
 See file LICENSE
 
