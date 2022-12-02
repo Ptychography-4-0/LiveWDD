@@ -32,7 +32,7 @@ This repository is presented to reproduce the result and act as supplementary ma
 @article{bangun2022wdd,
   title={Wigner Distribution Deconvolution Adaptation for Live Ptychography
     Reconstruction},
-  author={Bangun, Arya and Baumeister, Paul F and Clausen, Alex and Weber, Dieter, Dunin-Borkowski, Rafal E.},
+  author={Bangun, Arya and Baumeister, Paul F and Clausen, Alex and Weber, Dieter and Dunin-Borkowski, Rafal E.},
   journal={arXiv preprint (WILL BE UPDATED)},
   year={2022}
             }
