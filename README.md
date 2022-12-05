@@ -25,7 +25,10 @@ tikzplotlib
 ```
 
 
-This repository is presented to reproduce the result and act as supplementary material for the paper below. For continued development please refer the Ptychography 4.0 repository: https://github.com/Ptychography-4-0/ptychography
+This repository is presented to reproduce the result and act as supplementary material for the paper below. 
+Link:http://arxiv.org/abs/2212.01309
+
+For continued development please refer the Ptychography 4.0 repository: https://github.com/Ptychography-4-0/ptychography
 
 ## Citation
 ```
